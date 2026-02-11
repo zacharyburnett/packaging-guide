@@ -1,0 +1,29 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  
+jobs:
+  test:
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
+    with:
+      # run reproducible test environments defined in `tox.ini`
+      envs: |
+        - linux: py311-test-oldestdeps-xdist
+          pytest-results-summary: true
+        - linux: py311-test-xdist
+        - linux: py312-test-xdist
+        - linux: py313-test-xdist
+        - linux: py3-test-xdist
+          pytest-results-summary: true
+        - linux: build-docs
