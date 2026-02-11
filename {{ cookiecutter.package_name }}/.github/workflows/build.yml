@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   build:
-{% if cookiecutter.use_compiled_extensions %}
+{%- if cookiecutter.use_compiled_extensions %}
     uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v2
     with:
       targets: |
@@ -23,7 +23,7 @@ jobs:
       sdist: true
 {% else %}
     uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v2
-{% endif %}
+{% endif -%}
       upload_to_pypi: ${{ (github.event_name == 'release') && (github.event.action == 'released') }}
     secrets:
        pypi_token: ${{ secrets.PYPI_PASSWORD_STSCI_MAINTAINER }}
